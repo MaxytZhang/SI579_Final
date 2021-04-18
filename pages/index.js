@@ -1,4 +1,6 @@
-import { Form, Select, InputNumber, Switch, Slider, Button } from 'antd'
+import { Form, Select, InputNumber, Switch, Slider, Button} from 'antd'
+import { Row, Col, Divider, Checkbox } from 'antd';
+import { Radio, Space } from 'antd';
 
 // Custom DatePicker that uses Day.js instead of Moment.js
 import DatePicker from '../components/DatePicker'
@@ -17,88 +19,66 @@ const content = {
 export default function Home() {
   return (
     <div style={content}>
-      <div className="text-center mb-5">
-        <Link href="#">
-          <a className="logo mr-0">
-            <SmileFilled size={48} strokeWidth={1} />
-          </a>
-        </Link>
+      <Row justify="space-around" style={{fontSize:38, fontWeight:'bold', color:'Black', marginBottom: 24}}>View &amp; Compare Crypto Info</Row>
+      <Divider style={{fontSize:24, fontWeight:'bold', color:'Black'}} plain>Crypto</Divider>
+      <Row justify="space-around" style={{fontSize:16, marginTop: -15, marginBottom: 24}}>Please choose the crypto you want to view.</Row>
+      <Row justify="space-around">
+        <Radio.Group defaultValue="a" buttonStyle="solid">
+        <Row style={{marginBottom:24}}>
+          <Radio.Button value="a" style={{width: 300, height: 40, fontSize: 20, marginLeft: 80, marginRight: 15, textAlign:'center', fontWeight:'bold'}}>BTC / USDT</Radio.Button>
+          <Radio.Button value="b" style={{width: 300, height: 40, fontSize: 20, marginLeft: 15, marginRight: 15, textAlign:'center', fontWeight:'bold'}}>BNB / BUSD</Radio.Button>
+          <Radio.Button value="c" style={{width: 300, height: 40, fontSize: 20, marginLeft: 15, marginRight: 15, textAlign:'center', fontWeight:'bold'}}>ETH / BUSD</Radio.Button>
+          <Radio.Button value="d" style={{width: 300, height: 40, fontSize: 20, marginLeft: 15, marginRight: 80, textAlign:'center', fontWeight:'bold'}}>ZRP / Ripple</Radio.Button>
+        </Row>
+        <Row style={{marginBottom:24}}>
+          <Radio.Button value="e" style={{width: 300, height: 40, fontSize: 20, marginLeft: 80, marginRight: 15, textAlign:'center', fontWeight:'bold'}}>BTC / USDT</Radio.Button>
+          <Radio.Button value="f" style={{width: 300, height: 40, fontSize: 20, marginLeft: 15, marginRight: 15, textAlign:'center', fontWeight:'bold'}}>BNB / BUSD</Radio.Button>
+          <Radio.Button value="g" style={{width: 300, height: 40, fontSize: 20, marginLeft: 15, marginRight: 15, textAlign:'center', fontWeight:'bold'}}>ETH / BUSD</Radio.Button>
+          <Radio.Button value="h" style={{width: 300, height: 40, fontSize: 20, marginLeft: 15, marginRight: 80, textAlign:'center', fontWeight:'bold'}}>ZRP / Ripple</Radio.Button>
+        </Row>
+        </Radio.Group>
+      </Row>
 
-        <p className="mb-0 mt-3 text-disabled">Welcome to the world !</p>
-      </div>
-      <div>
-        <Form layout="horizontal">
-          <FormItem
-            label="Input Number"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 8 }}
-          >
-            <InputNumber
-              size="large"
-              min={1}
-              max={10}
-              style={{ width: 100 }}
-              defaultValue={3}
-              name="inputNumber"
-            />
-          </FormItem>
+      <Divider style={{fontSize:24, fontWeight:'bold', color:'Black'}} plain>Market</Divider>
+      <Row justify="space-around" style={{fontSize:16, marginTop: -15, marginBottom: 24}}>Please choose markets you want to compare.</Row>
+      <Row justify="space-around">
+        <Checkbox.Group onChange={onChange}>
+          <Row style={{marginBottom:24}}>
+            <Col><Checkbox value="A" style={{width: 300, height: 40, marginLeft: 80, marginRight: 15, fontSize: 20, fontWeight:'bold'}}>Market 1</Checkbox></Col>
+            <Col><Checkbox value="B" style={{width: 300, height: 40, marginLeft: 15, marginRight: 15, fontSize: 20, fontWeight:'bold'}}>Market 2</Checkbox></Col>
+            <Col><Checkbox value="C" style={{width: 300, height: 40, marginLeft: 15, marginRight: 15, fontSize: 20, fontWeight:'bold'}}>Market 3</Checkbox></Col>
+            <Col><Checkbox value="D" style={{width: 300, height: 40, marginLeft: 15, marginRight: 80, fontSize: 20, fontWeight:'bold'}}>Market 4</Checkbox></Col>
+          </Row>
+        </Checkbox.Group>
+      </Row>
 
-          <FormItem
-            label="Switch"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 8 }}
-          >
-            <Switch defaultChecked name="switch" />
-          </FormItem>
+      <Divider style={{fontSize:24, fontWeight:'bold', color:'Black'}} plain>Information</Divider>
+      <Row justify="space-around" style={{fontSize:16, marginTop: -15, marginBottom: 24}}>Please choose how you want to view the information.</Row>
+      <Row justify="space-around">
+        <Radio.Group defaultValue="a" buttonStyle="solid">
+        <Row style={{marginBottom:24}}>
+          <Col><Radio.Button value="a" style={{width: 300, height: 40, fontSize: 20, marginLeft: 80, marginRight: 15, textAlign:'center', fontWeight:'bold'}}>1 min</Radio.Button></Col>
+          <Col><Radio.Button value="b" style={{width: 300, height: 40, fontSize: 20, marginLeft: 15, marginRight: 15, textAlign:'center', fontWeight:'bold'}}>15 min</Radio.Button></Col>
+          <Col><Radio.Button value="c" style={{width: 300, height: 40, fontSize: 20, marginLeft: 15, marginRight: 15, textAlign:'center', fontWeight:'bold'}}>1 hour</Radio.Button></Col>
+          <Col><Radio.Button value="d" style={{width: 300, height: 40, fontSize: 20, marginLeft: 15, marginRight: 80, textAlign:'center', fontWeight:'bold'}}>4 hour</Radio.Button></Col>
+        </Row>
+        <Row style={{marginBottom:24}}>  
+          <Col><Radio.Button value="e" style={{width: 300, height: 40, fontSize: 20, marginLeft: 80, marginRight: 15, textAlign:'center', fontWeight:'bold'}}>1 day</Radio.Button></Col>
+          <Col><Radio.Button value="f" style={{width: 300, height: 40, fontSize: 20, marginLeft: 15, marginRight: 80, textAlign:'center', fontWeight:'bold'}}>1 week</Radio.Button></Col>
+        </Row>
+        </Radio.Group>
+      </Row>
 
-          <FormItem
-            label="Slider"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 8 }}
-          >
-            <Slider defaultValue={70} />
-          </FormItem>
-
-          <FormItem
-            label="Select"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 8 }}
-          >
-            <Select
-              size="large"
-              defaultValue="lucy"
-              style={{ width: 192 }}
-              name="select"
-            >
-              <Option value="jack">jack</Option>
-              <Option value="lucy">lucy</Option>
-              <Option value="disabled" disabled>
-                disabled
-              </Option>
-              <Option value="yiminghe">yiminghe</Option>
-            </Select>
-          </FormItem>
-
-          <FormItem
-            label="DatePicker"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 8 }}
-          >
-            <DatePicker name="startDate" />
-          </FormItem>
-          <FormItem
-            style={{ marginTop: 48 }}
-            wrapperCol={{ span: 8, offset: 8 }}
-          >
-            <Button size="large" type="primary" htmlType="submit">
-              OK
-            </Button>
-            <Button size="large" style={{ marginLeft: 8 }}>
-              Cancel
-            </Button>
-          </FormItem>
-        </Form>
-      </div>
+      <Divider plain></Divider>
+      <Row justify="space-around" style={{marginBottom:24}}>
+      <Button type="primary" style={{width: 300, height: 40, fontSize: 20, textAlign:'center', fontWeight:'bold'}}>
+        View
+      </Button>
+      </Row>
     </div>
   )
+}
+
+function onChange(checkedValues) {
+  console.log('checked = ', checkedValues);
 }
