@@ -129,7 +129,7 @@ class Home extends Component {
           </Row>
           <Row justify='space-around'>
             <Radio.Group
-              defaultValue='ETH-BTC'
+              // defaultValue='ETH-BTC'
               buttonStyle='solid'
               onChange={this.onChangeCrypo}
             >
@@ -345,7 +345,7 @@ class Home extends Component {
           </Row>
           <Row justify='space-around'>
             <Radio.Group
-              defaultValue='1m'
+              // defaultValue='1m'
               buttonStyle='solid'
               onChange={this.onChangeTimeframe}
             >
