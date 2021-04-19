@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, Card, Tag, Statistic, Table, Typography, Layout } from 'antd'
+import { Row, Col, Card, Tag, Statistic, Table, Typography, Layout, Divider, Button } from 'antd'
 import {
   ArrowUpOutlined,
   ArrowDownOutlined,
@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons'
 import Stock from '@ant-design/charts/lib/stock'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 const ccxt = require('ccxt')
 const { Title } = Typography
 const { Header, Content, Footer } = Layout
@@ -136,6 +137,23 @@ const StockVis = data => {
             </Card>
           </Col>
         </Row>
+        <Divider plain></Divider>
+          <Row justify='space-around' style={{ marginBottom: 24 }}>
+            <Link href={"/"}>
+              <Button
+                type='primary'
+                style={{
+                  width: 300,
+                  height: 40,
+                  fontSize: 20,
+                  textAlign: 'center',
+                  fontWeight: 'bold'
+                }}
+              >
+                Back
+              </Button>
+            </Link>
+          </Row>
       </Content>
       <Footer></Footer>
     </Layout>
