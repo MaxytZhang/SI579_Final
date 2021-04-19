@@ -1,13 +1,11 @@
-import { Form, Select, InputNumber, Switch, Slider, Button} from 'antd'
+import { Form, Select, InputNumber, Switch, Slider, Button, Progress, Layout, Typography} from 'antd'
 import { Row, Col, Divider, Checkbox } from 'antd';
 import { Radio, Space } from 'antd';
 import React, {Fragment, useState, useEffect, Component } from 'react';
+import { ArrowUpOutlined, ArrowDownOutlined, MoneyCollectOutlined, DollarCircleOutlined } from '@ant-design/icons';
 import Link from 'next/link'
-
-const content = {
-  marginTop: '100px',
-}
-
+const { Header, Content, Footer } = Layout;
+const { Title } = Typography;
 
 class Home extends Component {
   constructor(props) {
@@ -15,31 +13,58 @@ class Home extends Component {
     this.state = {
         crypo: "ETH-BTC",
         markets: ["0"],
-        timeframe: "1m"
+        timeframe: "1m",
+        progress: 0,
+        crypoSelected: false,
+        marketsSelected: false,
+        timeframeSelected: false,
     }
   }
   onChangeCrypo = (val) => {
-    console.log(Object.keys(val))
-    console.log(val)
-    this.setState({
-      "crypo": val.target.value,
-    })
+    if (!this.state.crypoSelected){
+      this.setState({
+        "crypo": val.target.value,
+        "progress": 33.3,
+        "crypoSelected": true
+      })
+    }else{
+      this.setState({
+        "crypo": val.target.value,
+      })
+    }
+
   }
 
   onChangeMarkets = (val) => {
-    this.setState({
-      "markets": val.sort(),
-    })
+    if (!this.state.marketsSelected){
+      this.setState({
+        "markets": val.sort(),
+        "progress": 66.6,
+        "marketsSelected": true
+      })
+    }else{
+      this.setState({
+        "markets": val.sort()
+      })
+    }
   }
 
   onChangeTimeframe = (val) => {
-    this.setState({
-      "timeframe": val.target.value
-    })
+    if (!this.state.timeframeSelected){
+      this.setState({
+        "timeframe": val.target.value,
+        "progress": 99.9
+      })
+    }else{
+      this.setState({
+        "timeframe": val.target.value,
+      })
+    }
+
   }
 
   render (){
-    const {crypo, markets, timeframe} = this.state;
+    const {crypo, markets, timeframe, progress} = this.state;
     let url = "/stock?"
     let searchParams = new URLSearchParams();
     searchParams.append("pair", crypo)
@@ -48,7 +73,22 @@ class Home extends Component {
     url += searchParams.toString()
     console.log(url)
   return(
-    <div style={content}>
+    <Layout>
+
+      <Header style={{"height":"100px"}}>
+            <Title style={{ color: '#ffffff', marginTop: '25px' }}><DollarCircleOutlined style={{ color: '#ffffff' }} />CoinHub</Title>
+            </Header>
+    <Content>
+    <Progress
+      strokeColor={{
+        '0%': '#108ee9',
+        '100%': '#87d068',
+      }}
+      strokeLinecap={"square"}
+      percent={progress}
+      showInfo={false}
+      type={"line"}
+    />
     <Row justify="space-around" style={{fontSize:38, fontWeight:'bold', color:'Black', marginBottom: 24}}>View &amp; Compare Crypto Info</Row>
     <Divider style={{fontSize:24, fontWeight:'bold', color:'Black'}} plain>Crypto</Divider>
     <Row justify="space-around" style={{fontSize:16, marginTop: -15, marginBottom: 24}}>Please choose the crypto you want to view.</Row>
@@ -106,7 +146,9 @@ class Home extends Component {
     </Button>
       </Link>
     </Row>
-  </div>
+  </Content>
+  <Footer></Footer>
+    </Layout>
   )
   }
 }

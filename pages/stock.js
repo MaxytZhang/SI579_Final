@@ -1,25 +1,67 @@
-import React, {Fragment, useState, useEffect } from 'react';
-import { Row, Col, Card, Tag, Statistic, Form, Select, InputNumber, Switch, Slider, Button } from 'antd'
-import { ArrowUpOutlined, ArrowDownOutlined, MoneyCollectOutlined } from '@ant-design/icons';
+import React from 'react';
+import { Row, Col, Card, Tag, Statistic, Table, Typography, Layout } from 'antd'
+import { ArrowUpOutlined, ArrowDownOutlined, MoneyCollectOutlined, DollarCircleOutlined } from '@ant-design/icons';
 import Stock from '@ant-design/charts/lib/stock';
 import { useRouter } from 'next/router'
 const ccxt = require ('ccxt');
-
+const { Title } = Typography;
+const { Header, Content, Footer } = Layout;
 const StockVis = (data) => {
     const router = useRouter()
-    console.log(router.query)
     let pair = router.query.pair;
     let markets = router.query.market
-    console.log(pair, markets)
     pair = pair.replace("-", "/")
     let marketsArray = markets.split("-")
     let marketCount = marketsArray.length;
-    console.log(marketCount)
-    console.log(data.stockData.length)
     const gridSize = 24 / marketCount;
+    const columns = [
+        {
+          title: 'Exchange',
+          dataIndex: 'name',
+        },
+        {
+          title: 'Bid',
+          dataIndex: 'bid',
+          sorter: {
+            compare: (a, b) => a.bid - b.bid,
+            multiple: 3,
+          },
+        },
+        {
+          title: 'Ask',
+          dataIndex: 'ask',
+          sorter: {
+            compare: (a, b) => a.math - b.math,
+            multiple: 2,
+          },
+        },
+        {
+          title: 'Spread',
+          dataIndex: 'spread',
+          sorter: {
+            compare: (a, b) => a.english - b.english,
+            multiple: 1,
+          },
+        },
+      ];
     return (
-        <Fragment>
-        <Row>
+        <Layout>
+            <Header style={{"height":"100px"}}>
+            <Title style={{ color: '#ffffff', marginTop: '25px' }}><DollarCircleOutlined style={{ color: '#ffffff' }} />{pair}</Title>
+            </Header>
+        <Content style={{ padding: '0 50px' }}>
+            
+        <Row gutter={24} style={{marginTop: 24}}>
+            <Col span={24} style={{ marginBottom: 24 }}>
+            <Card title={"Current Best Price"}>
+            <Table columns={columns} dataSource={data.orderBooks} pagination={false}/>
+            </Card>
+            </Col>
+        </Row>
+        <Row gutter={24}>
+            <Col span={24} style={{ marginBottom: 24 }}>
+            <Card title={"Historical Best Price"}>
+                <Row>
             <Col span={8}>
             <Card>
                 <Statistic
@@ -28,8 +70,8 @@ const StockVis = (data) => {
                     precision={6}
                     valueStyle={{ color: '#cf1322' }}
                     prefix={<ArrowUpOutlined />}
+                    suffix={<Tag color="error">{data.maxSell.marketName}</Tag>}
                 />
-                <Tag color="error">{data.maxSell.marketName}</Tag>
                 </Card>
             </Col>
             <Col span={8}>
@@ -40,8 +82,8 @@ const StockVis = (data) => {
                     precision={6}
                     valueStyle={{ color:  '#3f8600'}}
                     prefix={<ArrowDownOutlined />}
+                    suffix={<Tag color="success">{data.minBuy.marketName}</Tag>}
                 />
-                <Tag color="success">{data.minBuy.marketName}</Tag>
                 </Card>
             </Col>
             <Col span={8}>
@@ -56,37 +98,46 @@ const StockVis = (data) => {
                 />
                 </Card>
             </Col>
+            </Row>
+            </Card>
+            </Col>
         </Row>
-        <Row>
+        <Row gutter={24}>
+            <Col span={24}>
+                <Card title={"Historical Trends"}>
+                    <Row>
             {
                 data.stockData.map(marketData => (
-                    <Col span={gridSize}>
+                    <Col span={gridSize} style={{ marginBottom: 24 }}>
                         <Card title={marketData.name} bordered={false}>
                     <Stock data={marketData.data} xField={'trade_date'} yField={['open', 'close', 'high', 'low']} />
                     </Card>
                     </Col>
                 ))
             }
+            </Row>
+            </Card></Col>
         </Row>
-        </Fragment>
+        </Content>
+        <Footer></Footer>
+        </Layout>
     );
 }
 
 export async function getServerSideProps(context){
-    // const router = useRouter()
-    // let {pair, markets, timeframe} = context.query
     const namesAll = ["Binance", "Huobi Pro", "Coinbase Pro", "Kraken"];
     let pair = context.query.pair;
     let markets = context.query.market
     let timeframe = context.query.timeframe
     pair = pair.replace("-", "/")
-    console.log(pair, markets, timeframe)
     let marketsArray = markets.split("-")
     let namesCurrent = marketsArray.map(item => namesAll[parseInt(item)])
     let stockData = [];
     let minPrice = [];
     let maxPrice = [];
-    for (let market of marketsArray){
+    let orderBooks = [];
+    for (let i=0; i<marketsArray.length; i++){
+        let market = marketsArray[i]
         let exchange;
         let name;
         switch(parseInt(market)){
@@ -108,6 +159,10 @@ export async function getServerSideProps(context){
                 break
         }
         let ohlcv = await exchange.fetchOHLCV (pair, timeframe)
+        let orderbook = await exchange.fetchOrderBook (pair)
+        let bid = orderbook.bids.length ? orderbook.bids[0][0] : undefined
+        let ask = orderbook.asks.length ? orderbook.asks[0][0] : undefined
+        let spread = (bid && ask) ? ask - bid : undefined
         let series;
         switch(timeframe){
             case "1m":
@@ -133,15 +188,18 @@ export async function getServerSideProps(context){
         stockData.push({"data":data, "name":name})
         minPrice.push(Math.min(...data.map(item => item.low)))
         maxPrice.push(Math.max(...data.map(item => item.high)))
+        orderBooks.push({"key":i, "name":namesCurrent[i], "bid":bid, "ask":ask, "spread":spread})
     }
     const maxVal = Math.max(...maxPrice)
     const minVal = Math.min(...minPrice)
     return {
         props:{
+            namesCurrent: namesCurrent,
             stockData: stockData,
             maxSell: {marketName: namesCurrent[maxPrice.indexOf(maxVal)], val: maxVal},
             minBuy: {marketName: namesCurrent[minPrice.indexOf(minVal)], val: minVal},
-            profit: (maxVal - minVal) / minVal * 100
+            profit: (maxVal - minVal) / minVal * 100,
+            orderBooks: orderBooks
         }
     }
 }
