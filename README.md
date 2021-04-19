@@ -27,10 +27,10 @@ Crypto currencies have been a hot topic as their values explode. Apart from Bitc
 - [React.js](https://reactjs.org/)
 - [Next.js](https://nextjs.org/) React Framework
 for Production
-  - Hybrid: SSG and SSR: Pre-render pages at build time (SSG) or request time (SSR) in a single project.
-  - Fast Refresh: Fast, reliable live-editing feedback on edits made to your React components.
-  - Data Fetching
-  - Dynamic Route
+  1. Hybrid: SSG and SSR: Pre-render pages at build time (SSG) or request time (SSR) in a single project.
+  2. Fast Refresh: Fast, reliable live-editing feedback on edits made to your React components.
+  3. Data Fetching
+  4. Dynamic Route
 - [Ant Design](https://ant.design/) React UI library
 With complex scenarios, designers and developers often need to respond fast due to frequent changes in product demands and concurrent R & D workflow. Many similar contents exist in the process. Through abstraction, developers could obtain some stable and highly reusable components and pages. On the other hand, with the trend of commercialization, more and more enterprise products begin to pursue better user experiences. Under this situation, Ant User-Experience Design Team builds a design system for enterprise products based on four design values of Natural, Certain, Meaningful, and Growing. It aims to uniform the user interface specs and reduce redundancies and excessive production costs, helping product designers to focus on better user experience.
 
@@ -45,17 +45,17 @@ The candlestick chart for the cryptro is implemented based on this package.
 The CCXT library is used to connect and trade with cryptocurrency exchanges and payment processing services worldwide. It provides quick access to market data for storage, analysis, visualization, indicator development, algorithmic trading, strategy backtesting, bot programming, and related software engineering.
 It is intended to be used by coders, developers, technically-skilled traders, data-scientists and financial analysts for building trading algorithms.
 Current feature list:
-1. support for many cryptocurrency exchanges — more coming soon
-2. fully implemented public and private APIs
-3. optional normalized data for cross-exchange analytics and arbitrage
-4. an out of the box unified API that is extremely easy to integrate
-5. works in Node 7.6+, Python 3, PHP 5.4+, and web browsers
+  1. support for many cryptocurrency exchanges — more coming soon
+  2. fully implemented public and private APIs
+  3. optional normalized data for cross-exchange analytics and arbitrage
+  4. an out of the box unified API that is extremely easy to integrate
+  5. works in Node 7.6+, Python 3, PHP 5.4+, and web browsers
 
 - [Yarn](https://yarnpkg.com/) Project Manager
 Fast, reliable, and secure dependency management.
-1. Fast: Yarn caches every package it has downloaded, so it never needs to download the same package again. It also does almost everything concurrently to maximize resource utilization. This means even faster installs.
-2. Reliable: Using a detailed but concise lockfile format and a deterministic algorithm for install operations, Yarn is able to guarantee that any installation that works on one system will work exactly the same on another system.
-3. Secure: Yarn uses checksums to verify the integrity of every installed package before its code is executed.
+  1. Fast: Yarn caches every package it has downloaded, so it never needs to download the same package again. It also does almost everything concurrently to maximize resource utilization. This means even faster installs.
+  2. Reliable: Using a detailed but concise lockfile format and a deterministic algorithm for install operations, Yarn is able to guarantee that any installation that works on one system will work exactly the same on another system.
+  3. Secure: Yarn uses checksums to verify the integrity of every installed package before its code is executed.
 
 - [Webpack](https://webpack.js.org/) Module Bundler
 
