@@ -133,7 +133,7 @@ const StockVis = data => {
                     <Statistic
                       title='Max Value Sold'
                       value={data.maxSell.val}
-                      precision={6}
+                      precision={8}
                       valueStyle={{ color: '#cf1322' }}
                       prefix={<ArrowUpOutlined />}
                       suffix={
@@ -147,7 +147,7 @@ const StockVis = data => {
                     <Statistic
                       title='Min Value Bought'
                       value={data.minBuy.val}
-                      precision={6}
+                      precision={8}
                       valueStyle={{ color: '#3f8600' }}
                       prefix={<ArrowDownOutlined />}
                       suffix={
