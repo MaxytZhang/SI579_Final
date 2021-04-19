@@ -15,7 +15,9 @@ const { Header, Content, Footer } = Layout
 const StockVis = data => {
   const router = useRouter()
   let pair = router.query.pair
+  let timeframe = router.query.timeframe
   let markets = router.query.market
+  const trendTitle = "Historical Trends " + timeframe;
   pair = pair.replace('-', '/')
   let marketsArray = markets.split('-')
   let marketCount = marketsArray.length
@@ -30,7 +32,6 @@ const StockVis = data => {
       dataIndex: 'bid',
       sorter: {
         compare: (a, b) => a.bid - b.bid,
-        multiple: 3
       }
     },
     {
@@ -38,7 +39,6 @@ const StockVis = data => {
       dataIndex: 'ask',
       sorter: {
         compare: (a, b) => a.math - b.math,
-        multiple: 2
       }
     },
     {
@@ -46,7 +46,6 @@ const StockVis = data => {
       dataIndex: 'spread',
       sorter: {
         compare: (a, b) => a.english - b.english,
-        multiple: 1
       }
     }
   ]
@@ -120,7 +119,7 @@ const StockVis = data => {
         </Row>
         <Row gutter={24}>
           <Col span={24}>
-            <Card title={'Historical Trends'}>
+            <Card title={trendTitle}>
               <Row>
                 {data.stockData.map(marketData => (
                   <Col span={gridSize} style={{ marginBottom: 24 }}>
