@@ -131,7 +131,7 @@ const StockVis = data => {
                 <Col span={8}>
                   <Card>
                     <Statistic
-                      title='Max Value to Sell'
+                      title='Max Value Sold'
                       value={data.maxSell.val}
                       precision={6}
                       valueStyle={{ color: '#cf1322' }}
@@ -145,7 +145,7 @@ const StockVis = data => {
                 <Col span={8}>
                   <Card>
                     <Statistic
-                      title='Min Value to Buy'
+                      title='Min Value Bought'
                       value={data.minBuy.val}
                       precision={6}
                       valueStyle={{ color: '#3f8600' }}
