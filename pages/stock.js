@@ -1,5 +1,16 @@
 import React from 'react'
-import { Row, Col, Card, Tag, Statistic, Table, Typography, Layout, Divider, Button } from 'antd'
+import {
+  Row,
+  Col,
+  Card,
+  Tag,
+  Statistic,
+  Table,
+  Typography,
+  Layout,
+  Divider,
+  Button
+} from 'antd'
 import {
   ArrowUpOutlined,
   ArrowDownOutlined,
@@ -17,7 +28,7 @@ const StockVis = data => {
   let pair = router.query.pair
   let timeframe = router.query.timeframe
   let markets = router.query.market
-  const trendTitle = "Historical Trends " + timeframe;
+  const trendTitle = 'Historical Trends ' + timeframe
   pair = pair.replace('-', '/')
   let marketsArray = markets.split('-')
   let marketCount = marketsArray.length
@@ -31,21 +42,21 @@ const StockVis = data => {
       title: 'Bid',
       dataIndex: 'bid',
       sorter: {
-        compare: (a, b) => a.bid - b.bid,
+        compare: (a, b) => a.bid - b.bid
       }
     },
     {
       title: 'Ask',
       dataIndex: 'ask',
       sorter: {
-        compare: (a, b) => a.math - b.math,
+        compare: (a, b) => a.math - b.math
       }
     },
     {
       title: 'Spread',
       dataIndex: 'spread',
       sorter: {
-        compare: (a, b) => a.english - b.english,
+        compare: (a, b) => a.english - b.english
       }
     }
   ]
@@ -61,11 +72,55 @@ const StockVis = data => {
         <Row gutter={24} style={{ marginTop: 24 }}>
           <Col span={24} style={{ marginBottom: 24 }}>
             <Card title={'Current Best Price'}>
-              <Table
-                columns={columns}
-                dataSource={data.orderBooks}
-                pagination={false}
-              />
+              <Row>
+                <Col span={8}>
+                  <Card>
+                    <Statistic
+                      title='Max Ask Value'
+                      value={data.maxAsk.val}
+                      precision={6}
+                      valueStyle={{ color: '#cf1322' }}
+                      prefix={<ArrowUpOutlined />}
+                      suffix={<Tag color='error'>{data.maxAsk.marketName}</Tag>}
+                    />
+                  </Card>
+                </Col>
+                <Col span={8}>
+                  <Card>
+                    <Statistic
+                      title='Min Bid Value'
+                      value={data.minBid.val}
+                      precision={6}
+                      valueStyle={{ color: '#3f8600' }}
+                      prefix={<ArrowDownOutlined />}
+                      suffix={
+                        <Tag color='success'>{data.minBid.marketName}</Tag>
+                      }
+                    />
+                  </Card>
+                </Col>
+                <Col span={8}>
+                  <Card>
+                    <Statistic
+                      title='Profit'
+                      value={data.profitCurrent}
+                      precision={2}
+                      valueStyle={{ color: '#FFD700' }}
+                      prefix={<MoneyCollectOutlined />}
+                      suffix='%'
+                    />
+                  </Card>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={24} style={{ marginBottom: 24 }}>
+                  <Table
+                    columns={columns}
+                    dataSource={data.orderBooks}
+                    pagination={false}
+                  />
+                </Col>
+              </Row>
             </Card>
           </Col>
         </Row>
@@ -137,22 +192,22 @@ const StockVis = data => {
           </Col>
         </Row>
         <Divider plain></Divider>
-          <Row justify='space-around' style={{ marginBottom: 24 }}>
-            <Link href={"/"}>
-              <Button
-                type='primary'
-                style={{
-                  width: 300,
-                  height: 40,
-                  fontSize: 20,
-                  textAlign: 'center',
-                  fontWeight: 'bold'
-                }}
-              >
-                Back
-              </Button>
-            </Link>
-          </Row>
+        <Row justify='space-around' style={{ marginBottom: 24 }}>
+          <Link href={'/'}>
+            <Button
+              type='primary'
+              style={{
+                width: 300,
+                height: 40,
+                fontSize: 20,
+                textAlign: 'center',
+                fontWeight: 'bold'
+              }}
+            >
+              Back
+            </Button>
+          </Link>
+        </Row>
       </Content>
       <Footer></Footer>
     </Layout>
@@ -170,6 +225,8 @@ export async function getServerSideProps (context) {
   let stockData = []
   let minPrice = []
   let maxPrice = []
+  let minBid = []
+  let maxAsk = []
   let orderBooks = []
   for (let i = 0; i < marketsArray.length; i++) {
     let market = marketsArray[i]
@@ -229,6 +286,8 @@ export async function getServerSideProps (context) {
     stockData.push({ data: data, name: name, key: i })
     minPrice.push(Math.min(...data.map(item => item.low)))
     maxPrice.push(Math.max(...data.map(item => item.high)))
+    minBid.push(bid)
+    maxAsk.push(ask)
     orderBooks.push({
       key: i,
       name: namesCurrent[i],
@@ -239,6 +298,8 @@ export async function getServerSideProps (context) {
   }
   const maxVal = Math.max(...maxPrice)
   const minVal = Math.min(...minPrice)
+  const minBidVal = Math.min(...minBid)
+  const maxAskVal = Math.max(...maxAsk)
   return {
     props: {
       namesCurrent: namesCurrent,
@@ -252,7 +313,16 @@ export async function getServerSideProps (context) {
         val: minVal
       },
       profit: ((maxVal - minVal) / minVal) * 100,
-      orderBooks: orderBooks
+      orderBooks: orderBooks,
+      minBid: {
+        marketName: namesCurrent[minBid.indexOf(minBidVal)],
+        val: minBidVal
+      },
+      maxAsk: {
+        marketName: namesCurrent[maxAsk.indexOf(maxAskVal)],
+        val: maxAskVal
+      },
+      profitCurrent: ((maxAskVal - minBidVal) / minBidVal) * 100
     }
   }
 }

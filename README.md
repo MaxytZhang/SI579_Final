@@ -27,6 +27,10 @@ Crypto currencies have been a hot topic as their values explode. Apart from Bitc
 - [React.js](https://reactjs.org/)
 - [Next.js](https://nextjs.org/) React Framework
 for Production
+  - Hybrid: SSG and SSR: Pre-render pages at build time (SSG) or request time (SSR) in a single project.
+  - Fast Refresh: Fast, reliable live-editing feedback on edits made to your React components.
+  - Data Fetching
+  - Dynamic Route
 - [Ant Design](https://ant.design/) React UI library
 With complex scenarios, designers and developers often need to respond fast due to frequent changes in product demands and concurrent R & D workflow. Many similar contents exist in the process. Through abstraction, developers could obtain some stable and highly reusable components and pages. On the other hand, with the trend of commercialization, more and more enterprise products begin to pursue better user experiences. Under this situation, Ant User-Experience Design Team builds a design system for enterprise products based on four design values of Natural, Certain, Meaningful, and Growing. It aims to uniform the user interface specs and reduce redundancies and excessive production costs, helping product designers to focus on better user experience.
 
